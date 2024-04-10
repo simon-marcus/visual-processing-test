@@ -193,7 +193,7 @@ const Home = () => {
         <div className='max-w-xl mx-auto justify-center '>
           <h4>In each question, you will be briefly shown an image. If the image contains an animal, press the left arrow
             <span className='keyboard-key'>←</span>
-            on your keyboard. If the image doesn't contain an animal, press the
+            on your keyboard. If the image does not contain an animal, press the
             <span className='keyboard-key'>→</span>
             right arrow.</h4>
         </div>
