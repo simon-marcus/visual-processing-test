@@ -23,9 +23,10 @@ const Home = () => {
   const [tabulatedResults, setTabulatedResults] = useState<{ imageId: number; userChoice: boolean | null; reactionTime: number }[]>([]);
   const [keysPressed, setKeysPressed] = useState({ a: false, l: false });
   const [showImage, setShowImage] = useState(false);
+  const [nextImage, setNextImage] = useState<{ id: number; url: string, contains_animal: boolean } | null>(null);
   const [isDemoQuestion, setIsDemoQuestion] = useState(true);
 
- 
+
 
   const startTest = () => {
     setTestStarted(true);
@@ -229,7 +230,11 @@ const Home = () => {
               <tbody>
                 {tabulatedResults.map((result) => (
                   <tr key={result.imageId}>
-                    <td><a href={images.filter((image) => image.id === result.imageId)[0].url} target="_blank" rel="noopener noreferrer"><Image src={images.filter((image) => image.id === result.imageId)[0].url} alt="Test Image" width={100} height={100} /></a></td>
+                    <td>
+                      <a href={images.filter((image) => image.id === result.imageId)[0].url} target="_blank" rel="noopener noreferrer">
+                        <Image src={images.filter((image) => image.id === result.imageId)[0].url} alt="Test Image" width={100} height={100} />
+                      </a>
+                    </td>
                     <td>{result.imageId}</td>
                     <td>{result.userChoice ? 'YES' : 'NO'}</td>
                     <td>{result.reactionTime}</td>
@@ -257,7 +262,8 @@ const Home = () => {
         <div className='mx-auto mt-4 h-80 w-full relative'>
           <h2 className='text-gray-500 animate-fade delay-500'>Demo Question</h2>
           <div className='w-full max-w-xl'>
-            <Image src="https://qqvhixaarirsmydgqoqq.supabase.co/storage/v1/object/public/images/babka.jpg" alt="Demo Image" width={400} height={400} objectFit='cover' className='mx-auto animate-fade' />
+            <Image src={images[currentImageIndex].url} alt="Test Image" layout='fill' objectFit='cover'  className='opacity-0' />
+            <Image src="https://qqvhixaarirsmydgqoqq.supabase.co/storage/v1/object/public/images/babka.jpg" onLoad={handleImageLoad} alt="Demo Image" width={400} height={400} objectFit='cover' className='mx-auto animate-fade' />
             <h4>Does this image contain an animal?</h4>
             <div className='w-[400px] justify-between flex mx-auto'>
               <span className='keyboard-key animate-bounce animation-delay-[2000ms]' onClick={() => handleResponse(true)}>← YES</span>
@@ -269,6 +275,8 @@ const Home = () => {
       ) : (
         <div className='mx-auto mt-4 h-80 w-full relative'>
           <h3 className='text-gray-600'>Image {currentImageIndex + 1} of {images.length}</h3>
+          {/* Hidden image in order to preload the next image */}
+          <Image src={images[currentImageIndex + 1].url} alt="Test Image" layout='fill' objectFit='cover'  className='opacity-0' />
           {countdown > 0 ? (
             <div className='w-full h-full flex items-center justify-center text-4xl font-bold text-gray-500'>
               {countdown}
