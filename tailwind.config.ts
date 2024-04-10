@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+const plugin = require('tailwindcss/plugin')
+
 
 const config: Config = {
   content: [
@@ -13,8 +15,42 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      animation: {
+				fade: 'fadeIn .8s ease-in-out',
+        wiggle: 'wiggle 1s ease-in-out infinite',
+			},
+
+			keyframes: {
+				fadeIn: {
+          // @ts-ignore
+					from: { opacity: 0 },
+          // @ts-ignore
+					to: { opacity: 1 },
+				},
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        }
+			},
     },
   },
-  plugins: [],
+  plugins: [
+    // @ts-ignore
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          // @ts-ignore
+          "animation-delay": (value) => {
+            return {
+              "animation-delay": value,
+            };
+          },
+        },
+        {
+          values: theme("transitionDelay"),
+        }
+      );
+    }),
+  ],
 };
 export default config;
