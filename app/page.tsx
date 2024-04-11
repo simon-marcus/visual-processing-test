@@ -141,7 +141,7 @@ const Home = () => {
             setTimeout(() => {
               setShowImage(false);
               setShowKeys(true);
-            }, 20); // show image for 20ms
+            }, 40); // show image for 20ms
           }, 1000);
 
           return 0;
