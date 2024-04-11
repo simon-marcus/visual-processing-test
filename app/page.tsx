@@ -68,7 +68,7 @@ const Home = () => {
 
   function selectTwentyRandomImages(images: { id: number; url: string; contains_animal: boolean }[]) {
     const shuffledImages = images.sort(() => 0.5 - Math.random());
-    return shuffledImages.slice(0, 2);
+    return shuffledImages.slice(0, 20);
   }
   const handleImageLoad = () => {
     setImageLoaded(true);
