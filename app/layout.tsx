@@ -8,34 +8,26 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Human Visual Processing Test",
   description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
+  twitter: {
+    title: "Human Visual Processing Test",
+    description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
+    card: "summary_large_image",
+    creator: "Simon Marcus",
+    site: "https://🔗.to/simon",
+    images: ["https://vpt.onlyhumean.com/icon.png"],
+  },
+  openGraph: {
+    title: "Human Visual Processing Test",
+    description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
+    url: "https://🔗.to/simon",
+    siteName: "Human Visual Processing Test",
+    images: ["https://vpt.onlyhumean.com/icon.png"],
+    locale: "en-US",
+    type: "website",
+  },
   authors: [{ name: "Simon Marcus", url: "https://🔗.to/simon" }],
   creator: "Simon Marcus",
   keywords: 'human visual processing, visual processing test, artificial intelligence, machine learning, computer vision, one-shot learning, simon marcus',
-  icons: [
-    {
-      rel: 'apple-touch-icon',
-      type: 'image/png',
-      sizes: '180x180',
-      url: 'apple-touch-icon.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '512x512',
-      url: 'android-chrome-512x512.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '192x192',
-      url: 'android-chrome-192x192.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/x-icon',
-      url: 'favicon.ico',
-    }
-  ],
 };
 
 export default function RootLayout({
