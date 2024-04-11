@@ -13,7 +13,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .title {
   cursor: pointer;
-  font-size: 2.3rem ;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   line-height: 1;
@@ -89,19 +88,14 @@ tr:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-@media (max-height: 668px) {
-  .results-table {
-    max-height: 30vh;
-  }
-}
 .results-table {
-  max-height: 50vh;
+  max-height: min(55vh, calc(100vh - 400px));
   overflow-y: scroll;
 }
 
 .keyboard-key {
   cursor: pointer;
-  width: 70px;
+  width: 75px;
   transition: all 0.2s ease-in-out;
   font-family: monospace;
   color: rgb(29, 29, 29);
@@ -110,14 +104,13 @@ tr:hover {
   border-color: rgb(223, 223, 223);
   padding: 0.1rem 0.8rem;
   line-height: 1.5;
-  margin: 0.4rem;
   background-color: rgb(224, 224, 224);
   box-shadow: 0 4px 0px 1px rgb(159, 159, 159);
 }
 
 .darker-keyboard-key {
   cursor: pointer;
-  width: 70px;
+  width: 75px;
   transition: all 0.2s ease-in-out;
   font-family: monospace;
   color: rgb(191, 191, 191);

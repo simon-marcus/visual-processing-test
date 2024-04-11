@@ -25,6 +25,7 @@ const Home = () => {
   const [showImage, setShowImage] = useState(false);
   const [nextImage, setNextImage] = useState<{ id: number; url: string, contains_animal: boolean } | null>(null);
   const [isDemoQuestion, setIsDemoQuestion] = useState(true);
+  const [showKeys, setShowKeys] = useState(false);
 
 
 
@@ -104,7 +105,6 @@ const Home = () => {
       setCountdownRunning(true)
     }
 
-    // setStartTime(Date.now());
   }, [testStarted, testEnded, startTime, userId, images, currentImageIndex, isDemoQuestion]);
 
 
@@ -115,6 +115,7 @@ const Home = () => {
     if (countdownRunning) {
       countdownTimer = setTimeout(() => {
         setCountdownRunning(false);
+        setShowKeys(false);
       }, 2000);
     }
 
@@ -129,7 +130,6 @@ const Home = () => {
     let countdownTimer: NodeJS.Timeout | null = null;
     let showImageTimer: NodeJS.Timeout | null = null;
 
-
     countdownTimer = setInterval(() => {
       setCountdown((prevCountdown) => {
         if (countdown === 0) {
@@ -140,7 +140,8 @@ const Home = () => {
             setStartTime(Date.now());
             setTimeout(() => {
               setShowImage(false);
-            }, 200);
+              setShowKeys(true);
+            }, 20); // show image for 20ms
           }, 1000);
 
           return 0;
@@ -187,12 +188,15 @@ const Home = () => {
   if (!testStarted) {
     return (
       <>
-        <div className='max-w-xl mx-auto justify-center '>
-          <h4>In each question, you will be briefly shown an image. If the image contains an animal, press the left arrow
-            <span className='keyboard-key'>←</span>
+        <div className='max-w-xl mx-auto justify-center p-3 '>
+          <h4 className='text-slate-300 text-lg sm:text-xl font-normal '>In each question, you will be briefly shown an image. <br /><br />
+            <b>If the image contains an animal</b>, press the left arrow
+            <span className='keyboard-key m-1.5'>←</span>
             on your keyboard. If the image does not contain an animal, press the
-            <span className='keyboard-key'>→</span>
-            right arrow.</h4>
+            <span className='keyboard-key m-1.5'>→</span>
+            right arrow.<br /><br />
+            Each image will be displayed for <b>only 20 milliseconds</b> (a fiftieth of a second), so please keep your eyes on the screen.
+          </h4>
         </div>
         <div className='flex justify-center text-center mt-10 '>
           <button className='button' onClick={startTest}>Continue</button>
@@ -208,9 +212,9 @@ const Home = () => {
     }
     const numCorrect = tabulatedResults.filter((result) => result.userChoice === images.filter((image) => image.id === result.imageId)[0].contains_animal).length;
     return (
-      <div className='max-w-xl mx-auto justify-center text-center mt-4'>
-        <h1 className='text-blue-700'>{numCorrect} / {tabulatedResults.length}</h1>
-        <h3>You correctly identified {numCorrect} out of {tabulatedResults.length} images.</h3>
+      <div className='max-w-xl mx-auto justify-center text-center mt-2'>
+        <h2 className='text-sky-600 text-5xl md:text-6xl  '>{numCorrect} / {tabulatedResults.length}</h2>
+        <h3 className='text-slate-400 text-lg sm:text-xl md:text-2xl font-normal'>You correctly identified {numCorrect} out of {tabulatedResults.length} images.</h3>
         {testEnded && tabulatedResults.length > 0 && (
           <div className='flex justify-center text-center mt-4 results-table'>
             <table>
@@ -228,7 +232,7 @@ const Home = () => {
                   <tr key={result.imageId}>
                     <td>
                       <a href={images.filter((image) => image.id === result.imageId)[0].url} target="_blank" rel="noopener noreferrer">
-                        <Image src={images.filter((image) => image.id === result.imageId)[0].url} alt="Test Image" width={100} height={100} />
+                        <Image src={images.filter((image) => image.id === result.imageId)[0].url} alt="Test Image" width={75} height={75} />
                       </a>
                     </td>
                     <td>{result.imageId}</td>
@@ -245,7 +249,7 @@ const Home = () => {
           <button className='button' onClick={restartTest}>Restart Test</button>
         </div>
         <div className='mt-8 text-center'>
-          <h5> Thank you. See something wrong, like a misclassified image? Email me at <a href="mailto:simon@simonmarcus.org">simon@simonmarcus.org</a> with your feedback.</h5>
+          <h5 className='text-slate-300 text-lg font-normal'>Thank you. See something wrong, like a misclassified image? Email me at <a href="mailto:simon@simonmarcus.org">simon@simonmarcus.org</a> with your feedback.</h5>
         </div>
       </div>
     );
@@ -260,13 +264,13 @@ const Home = () => {
           <div className='w-full max-w-xl'>
             <Image src={images[currentImageIndex].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
             <Image src="https://qqvhixaarirsmydgqoqq.supabase.co/storage/v1/object/public/images/babka.jpg" priority alt="Demo Image" width={400} height={400} objectFit='cover' className='mx-auto animate-fade' />
-            <h4>Does this image contain an animal?</h4>
-            <div className='w-[400px] justify-between flex mx-auto'>
+            <h4 className='m-2 text-slate-200'>Does this image contain an animal?</h4>
+            <div className=' max-w-[400px] justify-between flex mx-auto'>
               <span className='keyboard-key animate-bounce animation-delay-[2000ms]' onClick={() => handleResponse(true)}>← YES</span>
               <span className='keyboard-key'>NO →</span>
             </div>
           </div>
-          <h4 className='mt-4'>Press the left arrow on your keyboard to begin.</h4>
+          <h4 className='mt-4 text-slate-400'>Press the left arrow on your keyboard to begin.</h4>
         </div>
       ) : (
         <div className='mx-auto mt-4 h-80 w-full relative'>
@@ -286,10 +290,12 @@ const Home = () => {
               ) : (
                 <>
                   <div className='w-full h-full bg-transparent'></div>
-                  <div className='w-[400px] justify-between flex mx-auto'>
-                    <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(true)}>← YES</span>
-                    <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(false)}>NO →</span>
-                  </div>
+                  {showKeys && (
+                    <div className='max-w-[400px] justify-between flex mx-auto'>
+                      <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(true)}>← YES</span>
+                      <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(false)}>NO →</span>
+                    </div>
+                  )}
                 </>
               )}
             </>

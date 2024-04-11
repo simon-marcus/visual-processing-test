@@ -38,9 +38,9 @@ const InfoModal = () => {
     <div>
       <button
         onClick={openModal}
-        className="text-white hover:text-cyan-300 focus:outline-none inline transition-all duration-300"
+        className="text-sky-500 hover:text-sky-300 focus:outline-none inline transition-all duration-300"
       >
-        <QuestionMarkCircledIcon className='m-2 inline scale-125' />
+        <QuestionMarkCircledIcon className='m-1.5 inline scale-125 sm:scale-[1.8] sm:m-3.5 md:scale-[2] md:m-4 lg:scale-[2.5] lg:m-5 align-middle' />
       </button>
       <Modal
         isOpen={modalIsOpen}
