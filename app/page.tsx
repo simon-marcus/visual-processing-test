@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import Image from 'next/image';
 import { restartTest } from './utils/utils';
+import InstructionsModal from './components/InstructionsModal';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,6 +27,14 @@ const Home = () => {
   const [nextImage, setNextImage] = useState<{ id: number; url: string, contains_animal: boolean } | null>(null);
   const [isDemoQuestion, setIsDemoQuestion] = useState(true);
   const [showKeys, setShowKeys] = useState(false);
+  const [isInstructionsModalOpen, setIsInstructionsModalOpen] = useState(false);
+  const showInstructionsModal = () => {
+    setIsInstructionsModalOpen(true);
+  };
+
+  const closeInstructionsModal = () => {
+    setIsInstructionsModalOpen(false);
+  };
 
 
 
@@ -141,7 +150,7 @@ const Home = () => {
             setTimeout(() => {
               setShowImage(false);
               setShowKeys(true);
-            }, 40); // show image for 20ms
+            }, 20); // show image for 20ms
           }, 1000);
 
           return 0;
@@ -188,8 +197,12 @@ const Home = () => {
   if (!testStarted) {
     return (
       <>
+        <div className='text-slate-300 text-sm font-normal lg:hidden border-orange-400 border p-4 rounded-lg bg-slate-300/15'>
+          <b>📱 Looks like you may be on a phone or mobile device. </b>
+          It is recommended that you complete this test on a computer with a keyboard in a focused environment in order to see the images and record your responses correctly.
+        </div>
         <div className='max-w-xl mx-auto justify-center p-3 '>
-          <h4 className='text-slate-300 text-lg sm:text-xl font-normal '>In each question, you will be briefly shown an image. <br /><br />
+          <h4 className='text-slate-300 text-lg  font-normal '>In each question, you will very briefly be shown an image. <br /><br />
             <b>If the image contains an animal</b>, press the left arrow
             <span className='keyboard-key m-1.5'>←</span>
             on your keyboard. If the image does not contain an animal, press the
@@ -249,7 +262,7 @@ const Home = () => {
           <button className='button' onClick={restartTest}>Restart Test</button>
         </div>
         <div className='mt-8 text-center'>
-          <h5 className='text-slate-300 text-lg font-normal'>Thank you. See something wrong, like a misclassified image? Email me at <a href="mailto:simon@simonmarcus.org">simon@simonmarcus.org</a> with your feedback.</h5>
+          <h5 className='text-slate-300 text-base font-normal'>Thank you. See something wrong, like a misclassified image? Email me at <a href="mailto:simon@simonmarcus.org">simon@simonmarcus.org</a> with your feedback.</h5>
         </div>
       </div>
     );
@@ -274,7 +287,7 @@ const Home = () => {
         </div>
       ) : (
         <div className='mx-auto mt-4 h-80 w-full relative'>
-          <h3 className='text-gray-600'>Image {currentImageIndex + 1} of {images.length}</h3>
+          <h3 className='text-gray-600 text-lg'>Image {currentImageIndex + 1} of {images.length}</h3>
           {
             /* Hidden image in order to preload the next image */
             currentImageIndex + 1 < images.length && <Image src={images[currentImageIndex + 1].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
@@ -297,6 +310,7 @@ const Home = () => {
                   {showKeys && (
                     <div className='max-w-[400px] justify-between flex mx-auto'>
                       <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(true)}>← YES</span>
+                      <span className='text-slate-600 mt-2 hover:text-slate-400 transition-all' onClick={() => showInstructionsModal()}>INSTRUCTIONS</span>
                       <span className='darker-keyboard-key animate-fade' onClick={() => handleResponse(false)}>NO →</span>
                     </div>
                   )}
@@ -306,6 +320,7 @@ const Home = () => {
           )}
         </div>
       )}
+      {isInstructionsModalOpen && <InstructionsModal isOpen={isInstructionsModalOpen} onRequestClose={closeInstructionsModal} />}
     </div>
 
   );

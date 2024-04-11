@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Title } from "./components/Title";
+import { AboutButton } from "./components/AboutButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,9 +41,10 @@ export default function RootLayout({
       <body className={inter.className + " m-1 mb-0 md:m-4 md:mb-0 lg:m-6 lg:mb-0"}>
         <Title />
         {children}
-        <div id='footer' className='footer text-center text-slate-500 mb-2'>
+        <div id='footer' className='footer text-center text-slate-500 mb-2 pr-1 md:pr-6 lg:pr-12 w-full'>
           <a rel='noopener' href='https://🔗.to/simon' target="_blank">Simon Marcus</a> | 
-          <a rel='noopener' href='https://github.com/simon-marcus/visual-processing-test' target="_blank"> GitHub</a>
+          <a rel='noopener' href='https://github.com/simon-marcus/visual-processing-test' target="_blank"> GitHub</a> |
+          <AboutButton />
         </div>
       </body>
     </html>
