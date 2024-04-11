@@ -279,6 +279,10 @@ const Home = () => {
             /* Hidden image in order to preload the next image */
             currentImageIndex + 1 < images.length && <Image src={images[currentImageIndex + 1].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
           }
+          {
+            /* Hidden image in order to preload the next image */
+            currentImageIndex + 2 < images.length && <Image src={images[currentImageIndex + 2].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
+          }
           {countdown > 0 ? (
             <div className='w-full h-full flex items-center justify-center text-4xl font-bold text-gray-500'>
               {countdown}
