@@ -22,8 +22,7 @@ export default function RootLayout({
         {children}
         <div id='footer' className='footer text-center text-slate-500 mb-2'>
           <a rel='noopener' href='https://🔗.to/simon' target="_blank">Simon Marcus</a> | 
-          <a rel='noopener' href='https://github.com/simon-marcus/animal-detection-test' target="_blank"> GitHub</a> |
-          <a rel='noopener' > About</a>
+          <a rel='noopener' href='https://github.com/simon-marcus/visual-processing-test' target="_blank"> GitHub</a>
         </div>
       </body>
     </html>

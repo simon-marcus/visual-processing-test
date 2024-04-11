@@ -48,6 +48,11 @@ a:hover {
   color: rgb(57, 166, 244);
 }
 
+p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 2;
+}
 
 table {
   width: 100%;
@@ -192,4 +197,37 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+blockquote {
+  text-indent: -0.45em;
+}
+@supports ( hanging-punctuation: first) {
+  blockquote {
+    text-indent: 0;
+    hanging-punctuation: first;
+  }
+}
+
+blockquote::before {
+    content: open-quote;
+}
+blockquote::after {
+    content: close-quote;
+}
+blockquote {
+    quotes: "“" "”" "‘" "’";
+}
+
+.quote {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  background: #eee;
+  padding: 1em;
+  border-radius: 1em;
+}
+.quote figcaption,
+.quote blockquote {
+  font-family: 'Georgia', serif;
+  margin: 0.5em;
 }

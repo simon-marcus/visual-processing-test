@@ -39,11 +39,9 @@ const Home = () => {
       let { data: user } = await supabase.auth.getUser();
       if (user.user) {
         setUserId(user.user?.id ?? null);
-        console.log(user);
       } else {
         let { data, error } = await supabase.auth.signInAnonymously();
         setUserId(data?.user?.id ?? null);
-        console.log(data);
       }
     };
     fetchData();
@@ -70,7 +68,7 @@ const Home = () => {
 
   function selectTwentyRandomImages(images: { id: number; url: string; contains_animal: boolean }[]) {
     const shuffledImages = images.sort(() => 0.5 - Math.random());
-    return shuffledImages.slice(0, 20);
+    return shuffledImages.slice(0, 2);
   }
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -101,7 +99,6 @@ const Home = () => {
     }
 
     if (isDemoQuestion && response) {
-      console.log('Demo question passed');
       setIsDemoQuestion(false);
       setCurrentImageIndex(0);
       setCountdownRunning(true)
@@ -158,7 +155,6 @@ const Home = () => {
 
 
     return () => {
-      console.log({ countdown, countdownRunning });
       clearInterval(countdownTimer!);
       clearTimeout(showImageTimer!);
     }
@@ -262,8 +258,8 @@ const Home = () => {
         <div className='mx-auto mt-4 h-80 w-full relative'>
           <h2 className='text-gray-500 animate-fade delay-500'>Demo Question</h2>
           <div className='w-full max-w-xl'>
-            <Image src={images[currentImageIndex].url} alt="Test Image" layout='fill' objectFit='cover'  className='opacity-0' />
-            <Image src="https://qqvhixaarirsmydgqoqq.supabase.co/storage/v1/object/public/images/babka.jpg" onLoad={handleImageLoad} alt="Demo Image" width={400} height={400} objectFit='cover' className='mx-auto animate-fade' />
+            <Image src={images[currentImageIndex].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
+            <Image src="https://qqvhixaarirsmydgqoqq.supabase.co/storage/v1/object/public/images/babka.jpg" priority alt="Demo Image" width={400} height={400} objectFit='cover' className='mx-auto animate-fade' />
             <h4>Does this image contain an animal?</h4>
             <div className='w-[400px] justify-between flex mx-auto'>
               <span className='keyboard-key animate-bounce animation-delay-[2000ms]' onClick={() => handleResponse(true)}>← YES</span>
@@ -275,8 +271,10 @@ const Home = () => {
       ) : (
         <div className='mx-auto mt-4 h-80 w-full relative'>
           <h3 className='text-gray-600'>Image {currentImageIndex + 1} of {images.length}</h3>
-          {/* Hidden image in order to preload the next image */}
-          <Image src={images[currentImageIndex + 1].url} alt="Test Image" layout='fill' objectFit='cover'  className='opacity-0' />
+          {
+            /* Hidden image in order to preload the next image */
+            currentImageIndex + 1 < images.length && <Image src={images[currentImageIndex + 1].url} alt="Test Image" layout='fill' objectFit='cover' className='opacity-0' />
+          }
           {countdown > 0 ? (
             <div className='w-full h-full flex items-center justify-center text-4xl font-bold text-gray-500'>
               {countdown}
