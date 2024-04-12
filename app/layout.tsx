@@ -8,21 +8,21 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Human Visual Processing Test",
-  description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
+  description: "Advancing AI and computer vision by better understanding human spatial cognition and world models | Simon Marcus",
   twitter: {
     title: "Human Visual Processing Test",
-    description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
+    description: "Advancing AI and computer vision by better understanding human spatial cognition and world models | Simon Marcus",
     card: "summary_large_image",
     creator: "Simon Marcus",
-    site: "https://🔗.to/simon",
-    images: ["https://vpt.onlyhumean.com/icon.png"],
+    site: "https://visual-processing-test.onlyhumean.com",
+    images: ["https://visual-processing-test.onlyhumean.com/icon.png"],
   },
   openGraph: {
     title: "Human Visual Processing Test",
-    description: "A test demonstrating the impressive speed and accuracy of human visual processing, and some applications to artificial intelligence and machine learning | Simon Marcus",
-    url: "https://🔗.to/simon",
+    description: "Advancing AI and computer vision by better understanding human spatial cognition and world models | Simon Marcus",
+    url: "https://visual-processing-test.onlyhumean.com",
     siteName: "Human Visual Processing Test",
-    images: ["https://vpt.onlyhumean.com/icon.png"],
+    images: ["https://visual-processing-test.onlyhumean.com/icon.png"],
     locale: "en-US",
     type: "website",
   },
