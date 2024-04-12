@@ -181,7 +181,6 @@ body {
 .footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
   height: 20px;
   background-color: rgb(var(--background-end-rgb))
 }
@@ -212,6 +211,12 @@ blockquote {
     quotes: "“" "”" "‘" "’";
 }
 
+/* blockquote::before, blockquote::after {
+    font-weight: 700;
+    font-size: x-large;
+    color: #333333;
+} */
+
 .quote {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -223,4 +228,13 @@ blockquote {
 .quote blockquote {
   font-family: 'Georgia', serif;
   margin: 0.5em;
+}
+
+.close-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
 }
