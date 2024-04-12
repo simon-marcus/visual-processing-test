@@ -24,7 +24,6 @@ const Home = () => {
   const [tabulatedResults, setTabulatedResults] = useState<{ imageId: number; userChoice: boolean | null; reactionTime: number }[]>([]);
   const [keysPressed, setKeysPressed] = useState({ a: false, l: false });
   const [showImage, setShowImage] = useState(false);
-  const [nextImage, setNextImage] = useState<{ id: number; url: string, contains_animal: boolean } | null>(null);
   const [isDemoQuestion, setIsDemoQuestion] = useState(true);
   const [showKeys, setShowKeys] = useState(false);
   const [isInstructionsModalOpen, setIsInstructionsModalOpen] = useState(false);
@@ -87,9 +86,11 @@ const Home = () => {
   const handleResponse = useCallback(async (response: boolean) => {
     if (!testStarted || testEnded) return;
 
+
     if (!isDemoQuestion && !countdownRunning) {
-      const reactionTime = Date.now() - startTime;
+      const reactionTime = performance.now() - startTime;
       setUserChoice(response);
+      
       tabulatedResults[currentImageIndex] = {
         imageId: images[currentImageIndex].id,
         userChoice: response,
@@ -100,10 +101,10 @@ const Home = () => {
         user_id: userId,
         image_id: images[currentImageIndex].id,
         response,
-        reaction_time: reactionTime,
+        reaction_time: reactionTime.toFixed(0),
       });
 
-      setCountdownRunning(true);
+      startCountdownAndImage();
       setCountdown(2);
       setCurrentImageIndex((prev) => prev + 1);
     }
@@ -112,64 +113,35 @@ const Home = () => {
       setIsDemoQuestion(false);
       setCurrentImageIndex(0);
       setCountdownRunning(true)
+      startCountdownAndImage();
     }
 
   }, [testStarted, testEnded, startTime, userId, images, currentImageIndex, isDemoQuestion]);
 
 
-  useEffect(() => {
-    if (!testStarted || testEnded) return;
-    let countdownTimer: NodeJS.Timeout | null = null;
+  // Function to start countdown and image display
+  const startCountdownAndImage = useCallback(() => {
+    setCountdownRunning(true); // Set to true at the start
+    
+    const startTime = performance.now();
+    setCountdown(2);
+    const countdownInterval = setInterval(() => {
+      const elapsedTime = performance.now() - startTime;
+      const remainingCountdown = 2 - Math.floor(elapsedTime / 1000);
+      setCountdown(remainingCountdown);
 
-    if (countdownRunning) {
-      countdownTimer = setTimeout(() => {
-        setCountdownRunning(false);
-        setShowKeys(false);
-      }, 2000);
-    }
-
-    return () => {
-      clearTimeout(countdownTimer!);
-    };
-  }, [countdownRunning, testStarted, testEnded]);
-
-
-  useEffect(() => {
-    if (!testStarted || testEnded) return;
-    let countdownTimer: NodeJS.Timeout | null = null;
-    let showImageTimer: NodeJS.Timeout | null = null;
-
-    countdownTimer = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (countdown === 0) {
-          clearInterval(countdownTimer!);
-          setCountdownRunning(false);
-          showImageTimer = setTimeout(() => {
-            setShowImage(true);
-            setStartTime(Date.now());
-            setTimeout(() => {
-              setShowImage(false);
-              setShowKeys(true);
-            }, 20); // show image for 20ms
-          }, 1000);
-
-          return 0;
-        } else if (prevCountdown === 0) {
-          return 0;
-        }
-
-        return prevCountdown - 1;
-      });
-    }, 1000);
-
-
-
-    return () => {
-      clearInterval(countdownTimer!);
-      clearTimeout(showImageTimer!);
-    }
-  }, [countdown, countdownRunning]);
-
+      if (remainingCountdown <= 0) {
+        clearInterval(countdownInterval);
+        setShowImage(true);
+        setTimeout(() => {
+          setShowImage(false);
+          setShowKeys(true);
+          setStartTime(performance.now()); // Start measuring reaction time
+          setCountdownRunning(false); // Set to false after image display
+        }, 20); // Show image for 20ms
+      }
+    }, 100); // Update countdown every 10ms for smoother experience
+  }, []);
 
 
   useEffect(() => {
@@ -197,7 +169,7 @@ const Home = () => {
   if (!testStarted) {
     return (
       <>
-        <div className='text-slate-300 text-sm font-normal lg:hidden border-orange-400 border p-4 rounded-lg bg-slate-300/15'>
+        <div className='text-slate-300 text-sm font-normal md:hidden border-orange-400 border p-4 rounded-lg bg-slate-300/15'>
           <b>📱 Looks like you may be on a phone or mobile device. </b>
           It is recommended that you complete this test on a computer with a keyboard in a focused environment in order to see the images and record your responses correctly.
         </div>
@@ -218,7 +190,7 @@ const Home = () => {
     );
   }
 
-  // Results screen←
+  // Results screen
   if (testStarted && currentImageIndex >= images.length) {
     if (!testEnded) {
       setTestEnded(true);
@@ -250,7 +222,7 @@ const Home = () => {
                     </td>
                     <td>{result.imageId}</td>
                     <td>{result.userChoice ? 'YES' : 'NO'}</td>
-                    <td>{result.reactionTime}</td>
+                    <td>{result.reactionTime.toLocaleString( undefined, { maximumFractionDigits: 0 })}</td>
                     <td>{result.userChoice === images.filter((image) => image.id === result.imageId)[0].contains_animal ? '✅' : '❌'}</td>
                   </tr>
                 ))}

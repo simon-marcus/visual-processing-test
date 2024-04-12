@@ -33,7 +33,7 @@ const InstructionsModal = ({ isOpen, onRequestClose }: {
       <div className='max-w-xl mx-auto justify-center p-3 '>
         <div className='flex justify-between items-center'>
           <h2>Instructions</h2>
-          <button className="close-button" onClick={onRequestClose}>✕</button>
+          <button className="close-button text-white" onClick={onRequestClose}>✕</button>
         </div>
         <h4 className='text-slate-300 text-base font-normal'>In each question, you will very briefly be shown an image. <br /><br />
           <b>If the image contains an animal</b>, press the left arrow
