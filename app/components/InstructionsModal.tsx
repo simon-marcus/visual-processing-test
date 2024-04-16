@@ -21,6 +21,10 @@ const InstructionsModal = ({ isOpen, onRequestClose }: {
       maxWidth: '95vw',
       zIndex: 20, // Add a higher z-index value for the modal
     },
+    overlay: {
+      backgroundColor: 'rgba(255, 255, 255, 0.3)',
+      backdropFilter: 'blur(5px)',
+    }
   };
 
   return (
